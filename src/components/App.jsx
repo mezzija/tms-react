@@ -1,5 +1,7 @@
 import React,{ Component } from 'react';
 import { hot } from 'react-hot-loader/root';
+
+
 //component
 import Header from './Header.jsx';
 import Main from "./Main.jsx";
@@ -8,10 +10,14 @@ import data from '../constants/catalogData';
 //style
 import '../styles/components/App.css';
 
+//helpers
+import sortArray from '../helpers/sortArray';
+
 class App extends Component {
     constructor(props){
         super(props);
         this.state = {
+            products:[...data],
             basket:{
                 count:0,
                 amount:0
@@ -37,10 +43,11 @@ class App extends Component {
         }))
     }
     render() {
+        sortArray(this.state.products,'desc');
         return(
             <React.Fragment>
                 <Header basket={this.state.basket}/>
-                <Main products={data} addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket}/>
+                <Main products={this.state.products} addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket}/>
             </React.Fragment>
         )
     }

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 
-import '../styles/components/ToggleBasket.css'
+import '../styles/components/BasketButton.css'
 
+import ClassNames from 'classnames'
 
 export default class BasketButton extends Component{
     constructor(props){
@@ -20,9 +21,8 @@ export default class BasketButton extends Component{
 
     render() {
         let text =this.state.active?"Remove from Basket":"Add to Basket";
-        let activeStyle = this.state.active?' active':'';
     return(
-        <a  onClick={this.handleClick} className={`button${activeStyle}`} href="#">{text}</a>
+        <a  onClick={this.handleClick} className={ClassNames('button',{'active':this.state.active})} href="#">{text}</a>
     )
 }
 

@@ -5,10 +5,9 @@ import Basket from "./Basket.jsx";
 
 import '../styles/components/Headers.css';
 
-export default class Header extends Component{
-    render() {
-        let {count,amount} = this.props.basket;
-        console.log(count);
+const  Header=(props)=> {
+
+        let {count,amount} = props.basket;
         return(
             <div className='header'>
                 <div className='container header__container row'>
@@ -19,6 +18,7 @@ export default class Header extends Component{
             </div>
 
         )
-    }
 
-}
+
+};
+export default Header;
