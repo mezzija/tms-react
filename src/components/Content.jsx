@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import BasketButton from "./BasketButton.jsx";
 
@@ -21,6 +22,7 @@ export default class Content extends Component{
         }
     }
     render() {
+
         return(
             <div id='Content' className='container'>
                 <div className='content row'>
@@ -39,5 +41,9 @@ export default class Content extends Component{
             </div>
         )
     }
-
 }
+Content.propTypes={
+    products:PropTypes.object,
+    addToBasket: PropTypes.func,
+    removeFromBasket:PropTypes.func,
+};

@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
+
 
 import '../styles/components/BasketButton.css'
 
@@ -24,6 +26,8 @@ export default class BasketButton extends Component{
     return(
         <a  onClick={this.handleClick} className={ClassNames('button',{'active':this.state.active})} href="#">{text}</a>
     )
+    }
 }
-
-}
+BasketButton.propTypes={
+    activeButton:PropTypes.func,
+};

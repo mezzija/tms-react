@@ -1,5 +1,6 @@
-import React,{ Component } from 'react';
+import React  from 'react';
 
+import PropTypes from 'prop-types';
 import '../styles/components/Basket.css';
 
 const  Basket=(props)=>{
@@ -13,5 +14,9 @@ const  Basket=(props)=>{
 
         )
 
+};
+Basket.propTypes={
+    count:PropTypes.number,
+    amount:PropTypes.number,
 };
 export default Basket;

@@ -17,14 +17,23 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            products:[...data],
+            products:sortArray([...data],'desc'),
             basket:{
                 count:0,
                 amount:0
             }
         };
+
+        this.sortContent=this.sortContent.bind(this);
         this.addToBasket=this.addToBasket.bind(this);
         this.removeFromBasket=this.removeFromBasket.bind(this);
+    }
+    sortContent (active){
+        if (active){
+            this.setState(prevState=>({products:sortArray(prevState.products,'asc')}));
+        }else {
+            this.setState(prevState=>({products:sortArray(prevState.products,'desc')}));
+        }
     }
     addToBasket(product){
         this.setState(prevState=>({
@@ -43,11 +52,11 @@ class App extends Component {
         }))
     }
     render() {
-        sortArray(this.state.products,'desc');
+
         return(
             <React.Fragment>
-                <Header basket={this.state.basket}/>
-                <Main products={this.state.products} addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket}/>
+                <Header basket={this.state.basket} />
+                <Main products={this.state.products} addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} sortContent={this.sortContent}/>
             </React.Fragment>
         )
     }

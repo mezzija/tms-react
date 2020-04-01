@@ -1,4 +1,6 @@
-import React,{ Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 
 import Search from './Search.jsx'
 import Basket from "./Basket.jsx";
@@ -20,5 +22,11 @@ const  Header=(props)=> {
         )
 
 
+};
+Header.propTypes={
+        basket: PropTypes.shape({
+                count:PropTypes.number,
+                amount:PropTypes.number,
+        })
 };
 export default Header;

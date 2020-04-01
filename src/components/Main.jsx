@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
+// component
 import Content from './Content.jsx'
-
+import SortButton from "./SortButton.jsx";
 
 
 import '../styles/components/Main.css'
@@ -11,12 +13,17 @@ const  Main=(props)=>{
             <main className="products container">
                 <div className="products__header">
                     <h3>Electronics</h3>
-                    <div>Sort by price: <a id="sort" href="#" className="products__sort">Asc</a></div>
+                    <SortButton products={props.products} sortContent={props.sortContent}/>
                 </div>
                 {props.products.map(item=>(
                     <Content key={item.id} product={item} addToBasket={props.addToBasket} removeFromBasket={props.removeFromBasket}/>
                 ))}
             </main>
         )
+};
+Main.propTypes={
+        products:PropTypes.array,
+        addToBasket: PropTypes.func,
+        removeFromBasket:PropTypes.func,
 };
 export default Main;
