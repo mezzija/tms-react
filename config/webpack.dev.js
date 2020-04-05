@@ -13,6 +13,9 @@ module.exports = merge.smart(common,{
         port: 8000,
         hot:true,
         open:true,
+        proxy: {
+            '/api': 'http://localhost:3000',
+        },
     },
     plugins:[
         new webpack.HotModuleReplacementPlugin(),

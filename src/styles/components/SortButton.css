@@ -1,3 +1,6 @@
 .products__sort {
     font-weight: bold;
 }
+.products__currency{
+    padding-right: 15px;
+}

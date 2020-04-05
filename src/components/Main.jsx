@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 // component
 import Content from './Content.jsx'
@@ -13,6 +12,7 @@ const  Main=(props)=>{
             <main className="products container">
                 <div className="products__header">
                     <h3>Electronics</h3>
+
                     <SortButton products={props.products} sortContent={props.sortContent}/>
                 </div>
                 {props.products.map(item=>(
@@ -21,9 +21,5 @@ const  Main=(props)=>{
             </main>
         )
 };
-Main.propTypes={
-        products:PropTypes.array,
-        addToBasket: PropTypes.func,
-        removeFromBasket:PropTypes.func,
-};
+
 export default Main;

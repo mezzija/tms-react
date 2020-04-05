@@ -5,45 +5,43 @@ import BasketButton from "./BasketButton.jsx";
 
 import '../styles/components/Content.css';
 
-export default class Content extends Component{
-    constructor(props){
-        super(props);
-        this.handleBasket =  this.handleBasket.bind(this);
-    }
-    viewNumber(num){
-        const regDelimiter=new RegExp(/\B(?=(\d{3})+(?!\d))/g );
-        return num.toFixed(2).replace(regDelimiter,',');
-    };
-    handleBasket(active){
-        if(active){
-            this.props.addToBasket(this.props.product);
-        }else{
-            this.props.removeFromBasket(this.props.product);
-        }
-    }
-    render() {
+const Content=(props)=>{
 
-        return(
+    const handleBasket=(active)=>{
+        if(active){
+            props.addToBasket(props.product);
+        }else{
+            props.removeFromBasket(props.product);
+        }
+    };
+    return(
             <div id='Content' className='container'>
                 <div className='content row'>
                     <div className='img'>
-                        <img src={this.props.product.imageLink} alt=""/>
+                        <img src={props.product.imageLink} alt=""/>
                     </div>
                     <div className="textWidth">
-                        <a className='title' href="#">{this.props.product.title}</a>
-                        <p className="characteristic" dangerouslySetInnerHTML={{__html:this.props.product.description}}/>
+                        <a className='title' href="#">{props.product.title}</a>
+                        <p className="characteristic" dangerouslySetInnerHTML={{__html:props.product.description}}/>
                     </div>
                     <div className='contentPrice'>
-                        <p>{this.viewNumber(this.props.product.price.value)}</p>
-                        <BasketButton activeButton={this.handleBasket} />
+                        <p>{viewNumber(props.product.price.value)}</p>
+                        <BasketButton activeButton={handleBasket} />
                     </div>
                 </div>
             </div>
         )
-    }
-}
+
+};
+const viewNumber=(num)=>{
+    const regDelimiter=new RegExp(/\B(?=(\d{3})+(?!\d))/g );
+    return num.toFixed(2).replace(regDelimiter,',');
+};
+
+
 Content.propTypes={
     products:PropTypes.object,
     addToBasket: PropTypes.func,
     removeFromBasket:PropTypes.func,
 };
+export default Content;
