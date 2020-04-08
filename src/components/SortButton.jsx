@@ -21,7 +21,7 @@ export default class SortButton extends Component {
         let sort = this.state.active? 'Desc':'Asc';
         return(
             <>
-                <div><a href="#" className={'products__currency'}>BYN</a>Sort by price: <a  onClick={this.handleClick} id="sort" href="#" className="products__sort">{sort}</a></div>
+                <div>Sort by price: <a  onClick={this.handleClick} id="sort" href="#" className="products__sort">{sort}</a></div>
             </>
         )
     }
