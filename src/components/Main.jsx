@@ -1,7 +1,16 @@
 import React from 'react';
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from "react-router-dom";
+
+
 // component
 import Content from './Content.jsx';
+import Cart from "./Cart.jsx";
+
 import SortButton from "./SortButton.jsx";
 import  CurrencyButton from "./CurrencyButton.jsx";
 
@@ -17,9 +26,27 @@ const  Main=(props)=>{
                     <CurrencyButton currencyProduct={props.currencyProduct} />
                     <SortButton products={props.products} sortContent={props.sortContent}/>
                 </div>
-                {props.products.map(item=>(
-                    <Content key={item.id} product={item} addToBasket={props.addToBasket} removeFromBasket={props.removeFromBasket}/>
-                ))}
+                <Switch>
+                    <Route path="/" exact>
+                        {props.products.map(item=>(
+                            <Content
+                                key={item.id}
+                                product={item}
+                                addToBasket={props.addToBasket}
+                                removeFromBasket={props.removeFromBasket}
+                                basket={props.basket}
+                            />
+                        ))}
+                    </Route>
+                    <Route path="/:id">
+                        <Cart
+                            products={props.products }
+                            addToBasket={props.addToBasket}
+                            removeFromBasket={props.removeFromBasket}
+                            basket={props.basket}
+                        />
+                    </Route>
+                </Switch>
             </main>
         )
 };

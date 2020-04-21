@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import { hot } from 'react-hot-loader/root';
 
 
+
 //component
 import Header from './Header.jsx';
 import Main from "./Main.jsx";
@@ -12,6 +13,7 @@ import '../styles/components/App.css';
 
 //helpers
 import sortArray from '../helpers/sortArray';
+import {BrowserRouter as Router} from "react-router-dom";
 
 class App extends Component {
 
@@ -20,6 +22,7 @@ class App extends Component {
         this.state = {
             products:[],
             basket:{
+                productsID:[],
                 count:0,
                 amount:0
             },
@@ -31,21 +34,21 @@ class App extends Component {
         this.sortContent=this.sortContent.bind(this);
         this.addToBasket=this.addToBasket.bind(this);
         this.removeFromBasket=this.removeFromBasket.bind(this);
-        this.currencyProduct=this.currencyProduct.bind(this);
+        /*this.currencyProduct=this.currencyProduct.bind(this);*/
     }
     componentDidMount() {
         fetch('/api/products')
             .then(response=>response.json())
             .then(products=>{
                 this.setState({
-                    valueBYN:sortArray(products,'desc'),
-                    valueUSD:sortArray(products,'desc'),
+                  /*  valueBYN:sortArray(products,'desc'),
+                    valueUSD:sortArray(products,'desc'),*/
                     products:sortArray(products,'desc'),
                     loading:false,
 
                 })
             }).catch(err=>console.log(err));
-        fetch('https://www.nbrb.by/api/exrates/rates/840?parammode=1')
+        /*fetch('https://www.nbrb.by/api/exrates/rates/840?parammode=1')
             .then(response=>response.json())
             .then(currency=>this.setState(prevState=>(
                 {
@@ -55,15 +58,15 @@ class App extends Component {
                     })
                 }
             )))
-            .catch(err=>console.log(err));
+            .catch(err=>console.log(err));*/
     }
-    currencyProduct(active){
+    /*currencyProduct(active){
         if(active){
             this.setState(prevState=>({products:prevState.valueBYN}));
         }else {
             this.setState(prevState=>({products:prevState.valueUSD}));
         }
-    }
+    }*/
     sortContent (active){
         if (active){
             this.setState(prevState=>({products:sortArray(prevState.products,'asc')}));
@@ -74,6 +77,7 @@ class App extends Component {
     addToBasket(product){
         this.setState(prevState=>({
             basket: {
+                productsID: [...prevState.basket.productsID,product.id],
                 count: prevState.basket.count+1,
                 amount: prevState.basket.amount+product.price.value,
             }
@@ -82,26 +86,27 @@ class App extends Component {
     removeFromBasket(product){
         this.setState(prevState=>({
             basket: {
+                productsID: prevState.basket.productsID.splice(prevState.basket.productsID.indexOf(product.id)),
                 count: prevState.basket.count-1,
                 amount: prevState.basket.amount-product.price.value,
             }
         }))
     }
     render() {
-
         return(
             <>
                 <Loader active={this.state.loading}/>
                 <Header basket={this.state.basket} />
                 <Main
                     products={this.state.products}
-
                     addToBasket={this.addToBasket}
                     removeFromBasket={this.removeFromBasket}
                     sortContent={this.sortContent}
                     currencyProduct={this.currencyProduct}
+                    basket={this.state.basket}
 
                 />
+
             </>
         )
     }

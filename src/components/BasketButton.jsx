@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
+import ClassNames from 'classnames'
 
-
+// style
 import '../styles/components/BasketButton.css'
 
-import ClassNames from 'classnames'
+
 
 export default class BasketButton extends Component{
     constructor(props){
@@ -14,6 +15,14 @@ export default class BasketButton extends Component{
         };
         this.handleClick = this.handleClick.bind(this);
     }
+    componentDidMount() {
+        if(this.props.basket.productsID.find(item=>item===this.props.productId)){
+            this.setState({active:true});
+        }else {
+            this.setState({active:false});
+        }
+    }
+
     handleClick(event){
         event.preventDefault();
         this.setState(prevState=>({active: !prevState.active}),()=>{
@@ -22,10 +31,11 @@ export default class BasketButton extends Component{
     }
 
     render() {
+
         let text =this.state.active?"Remove from Basket":"Add to Basket";
-    return(
-        <a  onClick={this.handleClick} className={ClassNames('button',{'active':this.state.active})} href="#">{text}</a>
-    )
+         return(
+            <a  onClick={this.handleClick} className={ClassNames('button',{'active':this.state.active})} href="#">{text}</a>
+        )
     }
 }
 BasketButton.propTypes={

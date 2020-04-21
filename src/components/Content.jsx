@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {withRouter} from 'react-router'
+
 import BasketButton from "./BasketButton.jsx";
 
 import '../styles/components/Content.css';
 
 const Content=(props)=>{
+    const handleClick=(event)=>{
+        event.preventDefault();
+        props.history.push(`/${props.product.id}`);
 
+    }
     const handleBasket=(active)=>{
         if(active){
             props.addToBasket(props.product);
@@ -14,6 +20,7 @@ const Content=(props)=>{
             props.removeFromBasket(props.product);
         }
     };
+
     return(
             <div id='Content' className='container'>
                 <div className='content row'>
@@ -21,12 +28,12 @@ const Content=(props)=>{
                         <img src={props.product.imageLink} alt=""/>
                     </div>
                     <div className="textWidth">
-                        <a className='title' href="#">{props.product.title}</a>
+                        <a  onClick={handleClick} className='title' href="#">{props.product.title}</a>
                         <p className="characteristic" dangerouslySetInnerHTML={{__html:props.product.description}}/>
                     </div>
                     <div className='contentPrice'>
                         <p>{viewNumber(props.product.price.value)}</p>
-                        <BasketButton activeButton={handleBasket} />
+                        <BasketButton productId={props.product.id} basket={props.basket} activeButton={handleBasket} />
                     </div>
                 </div>
             </div>
@@ -44,4 +51,4 @@ Content.propTypes={
     addToBasket: PropTypes.func,
     removeFromBasket:PropTypes.func,
 };
-export default Content;
+export default withRouter(Content);
