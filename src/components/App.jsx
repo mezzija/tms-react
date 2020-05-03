@@ -1,7 +1,26 @@
-import React,{ Component } from 'react';
-import { hot } from 'react-hot-loader/root';
+import React, {Component} from 'react';
+import {bool,func} from 'prop-types';
+import {compose} from "redux";
+
+//HOCs
+import {hot} from 'react-hot-loader/root';
+import { connect } from 'react-redux';
+
+const cloneDeep = require('lodash.clonedeep')
 
 
+
+//actions
+import {
+    addToBasket,
+    removeFromBasket,
+    startLoader,
+    endLoader,
+    addProducts,
+    addProductsOrigin,
+    addValueByn,
+
+} from "../actions";
 
 //component
 import Header from './Header.jsx';
@@ -13,103 +32,90 @@ import '../styles/components/App.css';
 
 //helpers
 import sortArray from '../helpers/sortArray';
-import {BrowserRouter as Router} from "react-router-dom";
+
 
 class App extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-            products:[],
-            basket:{
-                productsID:[],
-                count:0,
-                amount:0
-            },
-            loading:true,
-            valueBYN: [],
-            valueUSD:[],
-        };
-
-        this.sortContent=this.sortContent.bind(this);
-        this.addToBasket=this.addToBasket.bind(this);
-        this.removeFromBasket=this.removeFromBasket.bind(this);
-        /*this.currencyProduct=this.currencyProduct.bind(this);*/
+        this.currencyProduct = this.currencyProduct.bind(this);
     }
+
     componentDidMount() {
-        fetch('/api/products')
-            .then(response=>response.json())
-            .then(products=>{
-                this.setState({
-                  /*  valueBYN:sortArray(products,'desc'),
-                    valueUSD:sortArray(products,'desc'),*/
-                    products:sortArray(products,'desc'),
-                    loading:false,
+
+        this.props.startLoader();
+        setTimeout(()=>{
+            Promise.all([
+                fetch('/api/products')
+                    .then(response => response.json()),
+                fetch('https://www.nbrb.by/api/exrates/rates/840?parammode=1')
+                    .then(response => response.json()),
+
+            ])
+                .then(([products, nbrb]) => {
+                    this.props.addProducts(sortArray(products,'desc'));
+                    this.props.addProductsOrigin(cloneDeep(products));
+                    this.props.addValueByn(nbrb.Cur_OfficialRate);
+                    this.props.endLoader();
 
                 })
-            }).catch(err=>console.log(err));
-        /*fetch('https://www.nbrb.by/api/exrates/rates/840?parammode=1')
-            .then(response=>response.json())
-            .then(currency=>this.setState(prevState=>(
-                {
-                    valueBYN:prevState.valueBYN.forEach(item=>{
-                        item.price.value*=currency.Cur_OfficialRate;
-                        item.price.currency='BYN';
-                    })
-                }
-            )))
-            .catch(err=>console.log(err));*/
+                .catch(err => {
+                    console.log(err);
+                    this.props.startLoader();
+                });
+        },1000);
     }
-    /*currencyProduct(active){
-        if(active){
-            this.setState(prevState=>({products:prevState.valueBYN}));
-        }else {
-            this.setState(prevState=>({products:prevState.valueUSD}));
-        }
-    }*/
-    sortContent (active){
-        if (active){
-            this.setState(prevState=>({products:sortArray(prevState.products,'asc')}));
-        }else {
-            this.setState(prevState=>({products:sortArray(prevState.products,'desc')}));
-        }
-    }
-    addToBasket(product){
-        this.setState(prevState=>({
-            basket: {
-                productsID: [...prevState.basket.productsID,product.id],
-                count: prevState.basket.count+1,
-                amount: prevState.basket.amount+product.price.value,
-            }
-        }))
-    }
-    removeFromBasket(product){
-        this.setState(prevState=>({
-            basket: {
-                productsID: prevState.basket.productsID.splice(prevState.basket.productsID.indexOf(product.id)),
-                count: prevState.basket.count-1,
-                amount: prevState.basket.amount-product.price.value,
-            }
-        }))
-    }
-    render() {
-        return(
-            <>
-                <Loader active={this.state.loading}/>
-                <Header basket={this.state.basket} />
-                <Main
-                    products={this.state.products}
-                    addToBasket={this.addToBasket}
-                    removeFromBasket={this.removeFromBasket}
-                    sortContent={this.sortContent}
-                    currencyProduct={this.currencyProduct}
-                    basket={this.state.basket}
 
+    currencyProduct(active) {
+        if (active) {
+            this.setState(prevState => {
+                prevState.products.forEach(item => item.price.value *= this.state.valueBYN)
+                return {
+                    products: prevState.products
+                }
+            })
+        } else {
+            this.setState({
+                products: cloneDeep(this.state.productsOrigin),
+            })
+        }
+    }
+
+    render() {
+        const {load} = this.props;
+
+        return (
+            <>
+                <Loader display={load}/>
+                <Header/>
+                <Main
+                    currencyProduct={this.currencyProduct}
                 />
 
             </>
         )
     }
 }
+const mapStateToProps=(state)=>({
+    load:state.load,
+});
+const mapDispatchToProps={
+    startLoader,
+    endLoader,
+    addProducts,
+    addProductsOrigin,
+    addValueByn,
+};
 
-export default hot(App);
+App.displayName='App';
+
+App.propTypes = {
+    load:bool.isRequired,
+    startLoader:func.isRequired,
+    endLoader:func.isRequired,
+    addValueByn:func.isRequired,
+}
+export default compose(
+    hot,
+    connect(mapStateToProps,mapDispatchToProps),
+)(App);

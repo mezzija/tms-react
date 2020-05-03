@@ -1,10 +1,13 @@
 import  React,{Component} from 'react'
-
-import sortArray from '../helpers/sortArray';
+import {connect} from "react-redux"
 
 //styles
 import '../styles/components/SortButton.css'
-export default class SortButton extends Component {
+//helpers
+import sortArray from '../helpers/sortArray';
+
+
+class SortButton extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -14,11 +17,16 @@ export default class SortButton extends Component {
     }
     handleClick(event){
         event.preventDefault();
-        this.setState(prevState=>({active: !prevState.active}),()=>this.props.sortContent(this.state.active));
+        this.setState(prevState=>({active: !prevState.active}),()=>{
+            return this.state.active?
+                sortArray(this.props.products,'asc'):
+                sortArray(this.props.products,'desc');
+
+        });
     }
     render() {
-
         let sort = this.state.active? 'Desc':'Asc';
+        console.log(this.props.products);
         return(
             <>
                 <div>Sort by price: <a  onClick={this.handleClick} id="sort" href="#" className="products__sort">{sort}</a></div>
@@ -27,3 +35,7 @@ export default class SortButton extends Component {
     }
 
 }
+const mapStateToProps=(state)=>({
+   products:state.products,
+});
+export default connect(mapStateToProps)(SortButton);

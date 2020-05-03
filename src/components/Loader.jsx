@@ -2,11 +2,13 @@ import React from 'react'
 import ClassNames from 'classnames'
 import '../styles/components/Loader.css'
 
+//HOCs
+import WithDisplay from '../HOCs/withDisplay.jsx'
 
-const Loader=(props)=>{
-    if(props.active){
+const Loader=()=>{
+
         return(
-            <div className={ClassNames('position',{'active':!props.active})}>
+            <div className="position">
                 <div className="windows8">
                     <div className="wBall" id="wBall_1">
                         <div className="wInnerBall"/>
@@ -27,9 +29,9 @@ const Loader=(props)=>{
             </div>
 
         )
-    }else return null;
+
 
 };
 
-export default Loader;
+export default WithDisplay(Loader);
 

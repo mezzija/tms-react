@@ -1,5 +1,9 @@
+.basket{
+    cursor: pointer;
+}
 .basket__amount {
     font-size: 9px;
+
 }
 .basket__count {
     display: inline-flex;

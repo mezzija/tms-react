@@ -12,4 +12,4 @@ export default function (array, typeSort) {
         });
         return array
     }
-}
+};

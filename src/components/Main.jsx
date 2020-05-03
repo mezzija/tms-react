@@ -1,5 +1,10 @@
 import React from 'react';
+import {array} from 'prop-types'
 
+//HOCs
+import {compose} from "redux";
+import { connect } from 'react-redux';
+//Route
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,45 +15,46 @@ import {
 // component
 import Content from './Content.jsx';
 import Cart from "./Cart.jsx";
-
 import SortButton from "./SortButton.jsx";
-import  CurrencyButton from "./CurrencyButton.jsx";
-
+import CurrencyButton from "./CurrencyButton.jsx";
 
 
 import '../styles/components/Main.css'
 
-const  Main=(props)=>{
-        return(
-            <main className="products container">
-                <div className="products__header">
-                    <h3>Electronics</h3>
-                    <CurrencyButton currencyProduct={props.currencyProduct} />
-                    <SortButton products={props.products} sortContent={props.sortContent}/>
-                </div>
-                <Switch>
-                    <Route path="/" exact>
-                        {props.products.map(item=>(
-                            <Content
-                                key={item.id}
-                                product={item}
-                                addToBasket={props.addToBasket}
-                                removeFromBasket={props.removeFromBasket}
-                                basket={props.basket}
-                            />
-                        ))}
-                    </Route>
-                    <Route path="/:id">
-                        <Cart
-                            products={props.products }
-                            addToBasket={props.addToBasket}
-                            removeFromBasket={props.removeFromBasket}
-                            basket={props.basket}
+const Main = (props) => {
+    return (
+        <main className="products container">
+            <div className="products__header">
+                <h3>Electronics</h3>
+                <CurrencyButton currencyProduct={props.currencyProduct}/>
+                <SortButton/>
+            </div>
+            <Switch>
+                <Route path="/" exact>
+                    {props.products.map(item => (
+                        <Content
+                            key={item.id}
+                            product={item}
                         />
-                    </Route>
-                </Switch>
-            </main>
-        )
+                    ))}
+                </Route>
+                <Route path="/:id">
+                    <Cart
+                        products={props.products}
+                    />
+                </Route>
+            </Switch>
+        </main>
+    )
 };
 
-export default Main;
+const  mapStateToProps=(state)=>({
+    products:state.products,
+});
+
+Main.propTypes = {
+    products:array.isRequired,
+}
+export default compose(
+    connect(mapStateToProps,),
+)(Main);
