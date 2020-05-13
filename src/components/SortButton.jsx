@@ -1,41 +1,44 @@
-import  React,{Component} from 'react'
+import React, {useState, useEffect} from 'react'
 import {connect} from "react-redux"
-
+import {compose} from "redux";
+//action
+import {
+    sortAsc,
+    sortDesc,
+} from "../actions";
 //styles
 import '../styles/components/SortButton.css'
-//helpers
-import sortArray from '../helpers/sortArray';
 
 
-class SortButton extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            active:false,
-        };
-        this.handleClick=this.handleClick.bind(this);
-    }
-    handleClick(event){
+const SortButton = (props) => {
+
+    const [active, setActive] = useState({status: true, loader: false});
+
+    useEffect(() => {
+        if (active.loader) {
+            if (active.status) props.sortDesc();
+            else props.sortAsc();
+        }
+    }, [active])
+
+    const handleClick = (event) => {
         event.preventDefault();
-        this.setState(prevState=>({active: !prevState.active}),()=>{
-            return this.state.active?
-                sortArray(this.props.products,'asc'):
-                sortArray(this.props.products,'desc');
+        setActive(prevState => ({status: !prevState.status, loader: true}))
+    }
 
-        });
-    }
-    render() {
-        let sort = this.state.active? 'Desc':'Asc';
-        console.log(this.props.products);
-        return(
-            <>
-                <div>Sort by price: <a  onClick={this.handleClick} id="sort" href="#" className="products__sort">{sort}</a></div>
-            </>
-        )
-    }
+    let sort = active.status ? 'Desc' : 'Asc';
+    return (
+        <>
+            <div>Sort by price: <a onClick={handleClick} id="sort" href="#" className="products__sort">{sort}</a></div>
+        </>
+    )
 
 }
-const mapStateToProps=(state)=>({
-   products:state.products,
-});
-export default connect(mapStateToProps)(SortButton);
+
+const mapDispatchToProps = {
+    sortDesc,
+    sortAsc,
+}
+export default compose(
+    connect(null, mapDispatchToProps),
+)(SortButton);

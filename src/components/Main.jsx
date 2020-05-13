@@ -6,7 +6,6 @@ import {compose} from "redux";
 import { connect } from 'react-redux';
 //Route
 import {
-    BrowserRouter as Router,
     Switch,
     Route
 } from "react-router-dom";
@@ -26,7 +25,7 @@ const Main = (props) => {
         <main className="products container">
             <div className="products__header">
                 <h3>Electronics</h3>
-                <CurrencyButton currencyProduct={props.currencyProduct}/>
+                <CurrencyButton/>
                 <SortButton/>
             </div>
             <Switch>
@@ -34,7 +33,7 @@ const Main = (props) => {
                     {props.products.map(item => (
                         <Content
                             key={item.id}
-                            product={item}
+                             product={item}
                         />
                     ))}
                 </Route>
@@ -56,5 +55,5 @@ Main.propTypes = {
     products:array.isRequired,
 }
 export default compose(
-    connect(mapStateToProps,),
+    connect(mapStateToProps),
 )(Main);

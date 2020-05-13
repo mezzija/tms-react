@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
-import {bool,func} from 'prop-types';
+import React, { useEffect} from 'react';
+import {bool, func} from 'prop-types';
 import {compose} from "redux";
 
 //HOCs
 import {hot} from 'react-hot-loader/root';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 const cloneDeep = require('lodash.clonedeep')
-
 
 
 //actions
@@ -34,17 +33,10 @@ import '../styles/components/App.css';
 import sortArray from '../helpers/sortArray';
 
 
-class App extends Component {
-
-    constructor(props) {
-        super(props);
-        this.currencyProduct = this.currencyProduct.bind(this);
-    }
-
-    componentDidMount() {
-
-        this.props.startLoader();
-        setTimeout(()=>{
+const App = (props) => {
+    useEffect(() => {
+        props.startLoader();
+        setTimeout(() => {
             Promise.all([
                 fetch('/api/products')
                     .then(response => response.json()),
@@ -53,53 +45,36 @@ class App extends Component {
 
             ])
                 .then(([products, nbrb]) => {
-                    this.props.addProducts(sortArray(products,'desc'));
-                    this.props.addProductsOrigin(cloneDeep(products));
-                    this.props.addValueByn(nbrb.Cur_OfficialRate);
-                    this.props.endLoader();
+                    props.addProducts(sortArray(products, 'desc'));
+                    props.addProductsOrigin(cloneDeep(products));
+                    props.addValueByn(nbrb.Cur_OfficialRate);
+                    props.endLoader();
 
                 })
                 .catch(err => {
                     console.log(err);
-                    this.props.startLoader();
+                    props.startLoader();
                 });
-        },1000);
-    }
+        }, 1000);
 
-    currencyProduct(active) {
-        if (active) {
-            this.setState(prevState => {
-                prevState.products.forEach(item => item.price.value *= this.state.valueBYN)
-                return {
-                    products: prevState.products
-                }
-            })
-        } else {
-            this.setState({
-                products: cloneDeep(this.state.productsOrigin),
-            })
-        }
-    }
+    }, []);
+    const {load} = props;
 
-    render() {
-        const {load} = this.props;
+    return (
+        <>
+            <Loader display={load}/>
+            <Header/>
+            <Main/>
+        </>
+    )
 
-        return (
-            <>
-                <Loader display={load}/>
-                <Header/>
-                <Main
-                    currencyProduct={this.currencyProduct}
-                />
-
-            </>
-        )
-    }
 }
-const mapStateToProps=(state)=>({
-    load:state.load,
+
+const mapStateToProps = (state) => ({
+    load: state.load,
+
 });
-const mapDispatchToProps={
+const mapDispatchToProps = {
     startLoader,
     endLoader,
     addProducts,
@@ -107,15 +82,15 @@ const mapDispatchToProps={
     addValueByn,
 };
 
-App.displayName='App';
+App.displayName = 'App';
 
 App.propTypes = {
-    load:bool.isRequired,
-    startLoader:func.isRequired,
-    endLoader:func.isRequired,
-    addValueByn:func.isRequired,
+    load: bool.isRequired,
+    startLoader: func.isRequired,
+    endLoader: func.isRequired,
+    addValueByn: func.isRequired,
 }
 export default compose(
     hot,
-    connect(mapStateToProps,mapDispatchToProps),
+    connect(mapStateToProps, mapDispatchToProps),
 )(App);

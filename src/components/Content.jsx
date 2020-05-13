@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import {object} from 'prop-types';
 
-//HOCs
-import {compose} from "redux";
-import { connect } from 'react-redux';
-import {withRouter} from 'react-router';
+//Rouse
+import {useHistory} from "react-router-dom";
+
 
 //component
 import BasketButton from "./BasketButton.jsx";
@@ -15,11 +14,14 @@ import '../styles/components/Content.css';
 //helpers
 import viewNumber from "../helpers/viewNumber";
 
-const Content = ({product,history}) => {
+
+const Content = ({product}) => {
+
+    const history = useHistory();
+
     const handleClick = (event) => {
         event.preventDefault();
         history.push(`/${product.id}`);
-
     }
     return (
         <div id='Content' className='container'>
@@ -29,24 +31,20 @@ const Content = ({product,history}) => {
                 </div>
                 <div className="textWidth">
                     <a onClick={handleClick} className='title' href="#">{product.title}</a>
-                    <p className="characteristic" dangerouslySetInnerHTML={{__html:product.description}}/>
+                    <p className="characteristic" dangerouslySetInnerHTML={{__html: product.description}}/>
                 </div>
                 <div className='contentPrice'>
                     <p>{viewNumber(product.price.value)}</p>
-                    <BasketButton product={product} />
+                    <BasketButton product={product}/>
                 </div>
             </div>
         </div>
     )
 
 };
+Content.displayName = 'Content';
 
 Content.propTypes = {
-    products: PropTypes.object,
-    addToBasket: PropTypes.func,
-    removeFromBasket: PropTypes.func,
-    basket: PropTypes.object,
+    product: object.isRequired,
 };
-export default compose(
-    withRouter,
-)(Content);
+export default Content;

@@ -3,3 +3,4 @@ export * from './loadAction';
 export * from './productsAction';
 export * from './productsOriginAction';
 export * from './valueBYNAction';
+export * from './sortAction';

@@ -13,8 +13,6 @@ const Basket = (props) => {
             <div>Basket <span id='count' className="basket__count">{props.count}</span></div>
             <div className='basket__amount'> amount: <span id="amount">{viewNumber(props.amount)}$</span></div>
         </div>
-
-
     )
 
 };

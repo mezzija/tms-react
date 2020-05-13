@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react'
+import {object} from 'prop-types';
 import ClassNames from 'classnames'
 
 //HOCs
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 //action
 import {
     addToBasket,
@@ -15,47 +15,55 @@ import '../styles/components/BasketButton.css'
 
 
 
-class BasketButton extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            active:false,
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
-    componentDidMount() {
-        if(this.props.basket.productsID.find(item=>item===this.props.product.id)){
-            this.setState({active:true});
-        }else {
-            this.setState({active:false});
+const BasketButton = ({
+  product,
+  basket,
+  addToBasket,
+  removeFromBasket,
+}) => {
+
+    const [active, stateActive] = useState({status:true,loader:false});
+    useEffect(() => {
+        if (basket.productsID.find(item => item === product.id)) {
+            stateActive({status: true,loader: false});
+        } else {
+            stateActive({status: false,loader: false});
         }
-    }
 
-    handleClick(event){
+    }, []);
+    useEffect(()=>{
+        if(active.loader){
+            if (active.status) {
+                addToBasket({productsID: product.id, priceValue: product.price.value});
+            } else {
+                removeFromBasket({productsID: product.id, priceValue: product.price.value});
+            }
+        }
+    },[active]);
+
+    const handleClick = (event) => {
         event.preventDefault();
-        this.setState(prevState=>({active: !prevState.active}),()=>
-            this.state.active?
-                this.props.addToBasket({productsID:this.props.product.id,priceValue:this.props.product.price.value})
-                :this.props.removeFromBasket({productsID:this.props.product.id,priceValue:this.props.product.price.value}));
+        stateActive(prevState => ({status:!prevState.status,loader: true}));
     }
 
-    render() {
-        let text =this.state.active?"Remove from Basket":"Add to Basket";
-         return(
-            <a  onClick={this.handleClick} className={ClassNames('button',{'active':this.state.active})} href="#">{text}</a>
-        )
-    }
+    let text = active.status ? "Remove from Basket" : "Add to Basket";
+    return (
+        <a onClick={handleClick} className={ClassNames('button', {'active': active.status})} href="#">{text}</a>
+    )
+
 }
 
-const mapStateToProps=(state)=>({
-   basket:state.basket,
+BasketButton.displayName='BasketButton';
+
+const mapStateToProps = (state) => ({
+    basket: state.basket,
 });
-const mapDispatchToProps={
+const mapDispatchToProps = {
     addToBasket,
     removeFromBasket,
 };
-BasketButton.propTypes={
-    activeButton:PropTypes.func,
-    basket:PropTypes.object.isRequired,
+BasketButton.propTypes = {
+    basket: object.isRequired,
+    product:object.isRequired,
 };
-export default connect(mapStateToProps,mapDispatchToProps)(BasketButton);
+export default connect(mapStateToProps, mapDispatchToProps)(BasketButton);

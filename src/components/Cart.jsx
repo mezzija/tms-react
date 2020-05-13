@@ -1,14 +1,20 @@
 import React from 'react';
-import {withRouter} from 'react-router'
+import  {array} from 'prop-types';
+
+import {useParams} from "react-router-dom";
+//components
 import BasketButton from "./BasketButton.jsx";
 //styles
 import "../styles/components/Cart.css"
 //helpers
 import viewNumber from "../helpers/viewNumber";
 
-const Cart = (props) => {
 
-    let product = props.products.find(item => item.id === props.match.params.id);
+const Cart = ({products}) => {
+
+    const params = useParams();
+
+    const product = products.find(item => item.id === params.id);
     return (
         <div id='Content' className='container'>
             <div className='content row'>
@@ -26,7 +32,10 @@ const Cart = (props) => {
             </div>
         </div>
     );
-
-
 }
-export default withRouter(Cart);
+Cart.displayName = 'Cart';
+
+Cart.propTypes = {
+    products: array.isRequired,
+};
+export default Cart;
