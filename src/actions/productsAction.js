@@ -1,5 +1,11 @@
 import {createActions} from 'redux-actions';
 
-export const {addProducts} = createActions('ADD_PRODUCTS');
+export const {
+    addProducts,
+    getData,
+} = createActions(
+    'ADD_PRODUCTS',
+    'GET_DATA',
+);
 
 
