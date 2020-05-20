@@ -17,13 +17,14 @@ import Cart from "./Cart.jsx";
 import SortButton from "./SortButton.jsx";
 import CurrencyButton from "./CurrencyButton.jsx";
 
-
-import '../styles/components/Main.css'
+//styles
+import useStyles from '../styles/components/Main';
 
 const Main = (props) => {
+    const classes = useStyles();
     return (
         <main className="products container">
-            <div className="products__header">
+            <div className={classes.products__header}>
                 <h3>Electronics</h3>
                 <CurrencyButton/>
                 <SortButton/>
@@ -48,7 +49,7 @@ const Main = (props) => {
 };
 
 const  mapStateToProps=(state)=>({
-    products:state.products,
+    products:state.products.current,
 });
 
 Main.propTypes = {

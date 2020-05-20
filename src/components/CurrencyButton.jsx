@@ -1,23 +1,34 @@
-import React, {Component} from 'react';
+import React, {useState,useEffect} from 'react';
+import {useSelector} from "react-redux";
+//action
+import {currencyProducts} from "../actions";
+//HOCs
+import {connect} from 'react-redux';
+//style
+import useStyles from '../styles/components/CurrencyButton';
 
-import '../styles/components/CurrencyButton.css'
+const CurrencyButton=(props)=>{
+    const classes = useStyles();
+    const [active, setActive] = useState({status: true, loader: false});
+    const currencyBYN = useSelector(state=>state.valueBYN)
+    useEffect(()=>{
+        if(!active.status) props.currencyProducts(currencyBYN);
+        else props.currencyProducts();
+    },[active]);
+    const handleClick = (event) => {
+        event.preventDefault();
+        setActive(prevState => ({status: !prevState.status, loader: true}))
 
-export default class CurrencyButton extends Component{
-    constructor(props) {
-        super(props);
-        this.state={
-            active:false,
-        }
-        this.handleClick=this.handleClick.bind(this);
     }
-    handleClick(){
-        this.setState(prevState=>({active:!prevState.active}),()=>this.props.currencyProduct(this.state.active))
-    }
-    render() {
-        let currency=!this.state.active?'BYN':'USD';
-        return(
-            <a onClick={this.handleClick} href="#" className={'CurrencyButton'}>{currency}</a>
-        );
-    }
+
+    let currency=!active.status?'USD':'BYN';
+    return(
+        <a onClick={handleClick} href="#" className={classes.CurrencyButton}>{currency}</a>
+    );
+
 
 }
+const mapDispatchToProps={
+    currencyProducts
+}
+export default connect(null,mapDispatchToProps)(CurrencyButton);

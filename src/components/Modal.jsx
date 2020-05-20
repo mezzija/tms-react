@@ -1,17 +1,18 @@
 import React, {Component} from 'react'
 
 //style
-import '../styles/components/Modal.css'
+import useStyles from '../styles/components/Modal';
 
 //HOCs
 import WithDisplay from '../HOCs/withDisplay.jsx'
 
 const Modal = (props) => {
+    const classes=useStyles();
     return (
         <>
-            <div onClick={props.onClick} className='modal-background'/>
-            <div className='modal-root'>
-                <p className='modat-root-text'>Basket</p>
+            <div onClick={props.onClick} className={classes.modal_background}/>
+            <div className={classes.modal_root}>
+                <p className={classes.modal_rootText}>Basket</p>
                 {props.children}
             </div>
         </>

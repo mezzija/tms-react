@@ -26,7 +26,6 @@ export function* getDataSaga(){
             call(serverGet,rateUrl),
         ]);
         yield put(addProducts(sortArray(products, 'desc')));
-        yield put(addProductsOrigin(cloneDeep(products)));
         yield put(addValueByn(rate.Cur_OfficialRate));
         yield put(endLoader());
     }

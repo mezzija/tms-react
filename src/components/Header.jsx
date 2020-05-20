@@ -5,16 +5,17 @@ import {compose} from "redux";
 import {connect} from 'react-redux';
 //HOOKs
 import { useHistory } from "react-router-dom";
-
-
+//components
 import Search from './Search.jsx'
 import Basket from "./Basket.jsx";
 import Modal from "./Modal.jsx";
-
-import '../styles/components/Headers.css';
 import BasketCart from "./BasketCart.jsx";
+//style
+import useStyle from '../styles/components/Headers'
+
 
 const Header = ({products,basket}) => {
+    const classes= useStyle();
     const [modalActive,setModalActive]=useState(false);
     const  history=useHistory();
 
@@ -33,9 +34,9 @@ const Header = ({products,basket}) => {
     let {count, amount, productsID} = basket;
     const basketProduct = products.filter(item => productsID.includes(item.id));
     return (
-        <div className='header'>
-            <div className='container header__container row'>
-                <div><a href="#" onClick={handleClick} className='header__logo'>The Best Shop</a></div>
+        <div className={classes.header}>
+            <div className='container row'>
+                <div><a href="#" onClick={handleClick} className={classes.header__logo}>The Best Shop</a></div>
                 <Search/>
                 <Basket onClick={openModal} count={count} amount={amount}/>
                 <Modal onClick={closeModal} display={modalActive}>
@@ -66,7 +67,7 @@ Header.propTypes = {
 };
 const mapStateToProps = (state) => ({
     basket: state.basket,
-    products: state.products,
+    products: state.products.current,
 });
 
 export default compose(

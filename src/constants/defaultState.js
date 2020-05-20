@@ -6,9 +6,12 @@ export const basketState={
 
 export const loadState=true;
 
-export const productsState=[];
+export const productsState={
+    origin:[],
+    current:[],
 
-export const productsOriginState=[];
+};
+
 
 export const valueBYNState = 0;
 

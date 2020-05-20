@@ -9,14 +9,15 @@ import {useHistory} from "react-router-dom";
 import BasketButton from "./BasketButton.jsx";
 
 //style
-import '../styles/components/Content.css';
+
+import useStyles from '../styles/components/Cart';
 
 //helpers
 import viewNumber from "../helpers/viewNumber";
 
 
 const Content = ({product}) => {
-
+    const classes = useStyles();
     const history = useHistory();
 
     const handleClick = (event) => {
@@ -25,15 +26,15 @@ const Content = ({product}) => {
     }
     return (
         <div id='Content' className='container'>
-            <div className='content row'>
-                <div className='img'>
+            <div className={`${classes.content} row`}>
+                <div className={classes.img}>
                     <img src={product.imageLink} alt=""/>
                 </div>
-                <div className="textWidth">
-                    <a onClick={handleClick} className='title' href="#">{product.title}</a>
-                    <p className="characteristic" dangerouslySetInnerHTML={{__html: product.description}}/>
+                <div className={classes.textWidth}>
+                    <a onClick={handleClick} className={classes.title} href="#">{product.title}</a>
+                    <p className={classes.characteristic} dangerouslySetInnerHTML={{__html: product.description}}/>
                 </div>
-                <div className='contentPrice'>
+                <div className={classes.contentPrice}>
                     <p>{viewNumber(product.price.value)}</p>
                     <BasketButton product={product}/>
                 </div>

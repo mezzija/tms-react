@@ -5,15 +5,15 @@ export const {
     getData,
     sortAsc,
     sortDesc,
-    addProductsOrigin,
     searchProducts,
+    currencyProducts,
 } = createActions(
     'ADD_PRODUCTS',
     'GET_DATA',
     'SORT_ASC',
     'SORT_DESC',
-    'ADD_PRODUCTS_ORIGIN',
     'SEARCH_PRODUCTS',
+    'CURRENCY_PRODUCTS',
 );
 
 

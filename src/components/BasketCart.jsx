@@ -1,21 +1,23 @@
 import React from 'react'
 import viewNumber from "../helpers/viewNumber";
+//styles
 
-import '../styles/components/BasketCart.css'
+import useStyles from '../styles/components/Cart';
 
 const BasketCart = ({product}) => {
+    const classes=useStyles();
     return (
         <>
             <div id='Content' className='container'>
-                <div className='content row'>
-                    <div className='img'>
+                <div className={`${classes.content} row`}>
+                    <div className={classes.img}>
                         <img src={product.imageLink} alt=""/>
                     </div>
-                    <div className="textWidth">
-                        <p className='title'>{product.title}</p>
-                        <p className="characteristic" dangerouslySetInnerHTML={{__html: product.description}}/>
+                    <div  className={classes.textWidth}>
+                        <p className={classes.title}>{product.title}</p>
+                        <p className={classes.characteristic} dangerouslySetInnerHTML={{__html: product.description}}/>
                     </div>
-                    <div className='contentPrice'>
+                    <div className={classes.contentPrice}>
                         <p>{viewNumber(product.price.value)}</p>
                     </div>
                 </div>

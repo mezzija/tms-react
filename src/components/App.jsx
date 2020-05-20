@@ -15,9 +15,13 @@ import Main from "./Main.jsx";
 import Loader from "./Loader.jsx"
 
 //style
-import '../styles/components/App.css';
+import useRootStyle from '../styles';
+//HOOKs
+import {useTheme} from 'react-jss';
 
 const App = (props) => {
+    useRootStyle();
+
     useEffect(() => {
         props.getData();
     }, []);

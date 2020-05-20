@@ -5,7 +5,6 @@ import storage from 'redux-persist/lib/storage'
 import basketReducer from './basketReducer';
 import loadReducer from './loadReducer';
 import productsReducer from './productsReducer';
-import productsOriginReducer from "./productsOriginReducer";
 import valueBYNReducer from "./valueBYNReducer";
 
 
@@ -21,7 +20,6 @@ const reducers = persistReducer({
     ...basketReducer,
     ...loadReducer,
     ...productsReducer,
-    ...productsOriginReducer,
     ...valueBYNReducer,
 }));
 

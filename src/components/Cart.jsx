@@ -5,27 +5,27 @@ import {useParams} from "react-router-dom";
 //components
 import BasketButton from "./BasketButton.jsx";
 //styles
-import "../styles/components/Cart.css"
+import useStyles from '../styles/components/Cart';
 //helpers
 import viewNumber from "../helpers/viewNumber";
 
 
 const Cart = ({products}) => {
-
+    const classes=useStyles();
     const params = useParams();
 
     const product = products.find(item => item.id === params.id);
     return (
         <div id='Content' className='container'>
-            <div className='content row'>
-                <div className='img'>
+            <div className={`${classes.content} row`}>
+                <div className={classes.img}>
                     <img src={product.imageLink} alt=""/>
                 </div>
-                <div className="textWidth">
-                    <p className='title'>{product.title}</p>
-                    <p className="characteristic" dangerouslySetInnerHTML={{__html: product.description}}/>
+                <div className={classes.textWidth}>
+                    <p className={classes.title}>{product.title}</p>
+                    <p className={classes.characteristic} dangerouslySetInnerHTML={{__html: product.description}}/>
                 </div>
-                <div className='contentPrice'>
+                <div className={classes.contentPrice}>
                     <p>{viewNumber(product.price.value)}</p>
                     <BasketButton product={product}/>
                 </div>
