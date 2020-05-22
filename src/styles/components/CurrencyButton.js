@@ -6,5 +6,5 @@ const CurrencyButtonStyles = {
         left: '63%',
     },
 }
-export default createUseStyles(CurrencyButtonStyles);
+export default createUseStyles(CurrencyButtonStyles,{name:'CurrencyButton',index:400});
 

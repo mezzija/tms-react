@@ -32,4 +32,4 @@ const CartStyle=({palette})=>({
         color: palette.common.black,
     },
 });
-export default createUseStyles(CartStyle);
+export default createUseStyles(CartStyle,{name:'Cart',index:201});

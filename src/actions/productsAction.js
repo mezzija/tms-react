@@ -7,6 +7,7 @@ export const {
     sortDesc,
     searchProducts,
     currencyProducts,
+    changePrice,
 } = createActions(
     'ADD_PRODUCTS',
     'GET_DATA',
@@ -14,6 +15,7 @@ export const {
     'SORT_DESC',
     'SEARCH_PRODUCTS',
     'CURRENCY_PRODUCTS',
+    'CHANGE_PRICE',
 );
 
 

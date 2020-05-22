@@ -10,6 +10,7 @@ import Search from './Search.jsx'
 import Basket from "./Basket.jsx";
 import Modal from "./Modal.jsx";
 import BasketCart from "./BasketCart.jsx";
+import ThemeButton from "./ThemeButton.jsx";
 //style
 import useStyle from '../styles/components/Headers'
 
@@ -38,6 +39,7 @@ const Header = ({products,basket}) => {
             <div className='container row'>
                 <div><a href="#" onClick={handleClick} className={classes.header__logo}>The Best Shop</a></div>
                 <Search/>
+                <ThemeButton/>
                 <Basket onClick={openModal} count={count} amount={amount}/>
                 <Modal onClick={closeModal} display={modalActive}>
                     {basketProduct.map(item => (

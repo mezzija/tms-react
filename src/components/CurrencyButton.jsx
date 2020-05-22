@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
-import {useSelector} from "react-redux";
 //action
-import {currencyProducts} from "../actions";
+import {changeCurrency} from "../actions";
 //HOCs
 import {connect} from 'react-redux';
 //style
@@ -10,11 +9,14 @@ import useStyles from '../styles/components/CurrencyButton';
 const CurrencyButton=(props)=>{
     const classes = useStyles();
     const [active, setActive] = useState({status: true, loader: false});
-    const currencyBYN = useSelector(state=>state.valueBYN)
+
     useEffect(()=>{
-        if(!active.status) props.currencyProducts(currencyBYN);
-        else props.currencyProducts();
-    },[active]);
+        if(active.loader){
+            if(!active.status) props.changeCurrency('BYN');
+            else props.changeCurrency('USD');
+        }
+    },[active])
+
     const handleClick = (event) => {
         event.preventDefault();
         setActive(prevState => ({status: !prevState.status, loader: true}))
@@ -29,6 +31,6 @@ const CurrencyButton=(props)=>{
 
 }
 const mapDispatchToProps={
-    currencyProducts
+    changeCurrency,
 }
 export default connect(null,mapDispatchToProps)(CurrencyButton);

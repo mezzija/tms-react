@@ -12,4 +12,4 @@ const MainStyle={
     }
 
 }
-export default createUseStyles(MainStyle);
+export default createUseStyles(MainStyle,{name:'Main', index:200});

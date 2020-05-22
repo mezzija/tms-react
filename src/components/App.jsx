@@ -14,26 +14,25 @@ import Header from './Header.jsx';
 import Main from "./Main.jsx";
 import Loader from "./Loader.jsx"
 
-//style
-import useRootStyle from '../styles';
-//HOOKs
-import {useTheme} from 'react-jss';
+import RootStyle from "../styles/index";
+import useStyles from '../styles/components/App'
+
 
 const App = (props) => {
-    useRootStyle();
-
+    RootStyle()
+    const classes = useStyles();
     useEffect(() => {
-        props.getData();
+        props.getData('hello');
     }, []);
 
     const {load} = props;
 
     return (
-        <>
+        <div className={classes.root}>
             <Loader display={load}/>
             <Header/>
             <Main/>
-        </>
+        </div>
     )
 
 }

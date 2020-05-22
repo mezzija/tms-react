@@ -13,5 +13,8 @@ export const productsState={
 };
 
 
-export const valueBYNState = 0;
+export const currencyState = {};
 
+export const appState={
+    lightTheme:true,
+}

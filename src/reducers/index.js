@@ -5,7 +5,8 @@ import storage from 'redux-persist/lib/storage'
 import basketReducer from './basketReducer';
 import loadReducer from './loadReducer';
 import productsReducer from './productsReducer';
-import valueBYNReducer from "./valueBYNReducer";
+import currencyReducer from "./currencyReducer";
+import appReducers from "./appReducers";
 
 
 const reducers = persistReducer({
@@ -20,7 +21,8 @@ const reducers = persistReducer({
     ...basketReducer,
     ...loadReducer,
     ...productsReducer,
-    ...valueBYNReducer,
+    ...currencyReducer,
+    ...appReducers,
 }));
 
 export default reducers;

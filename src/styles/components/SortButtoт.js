@@ -4,4 +4,4 @@ const SortButtonStyle={
         fontWeight: 'bold',
     }
 }
-export default createUseStyles(SortButtonStyle);
+export default createUseStyles(SortButtonStyle,{name:'SortButton',index:301});

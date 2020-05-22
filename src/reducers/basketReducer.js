@@ -1,6 +1,10 @@
 import {handleActions} from 'redux-actions';
 //action
-import {addToBasket,removeFromBasket} from "../actions";
+import {
+    addToBasket,
+    removeFromBasket,
+    changeAmount,
+} from "../actions";
 //state
 import {basketState} from "../constants/defaultState";
 
@@ -23,6 +27,9 @@ export default {
             newState.amount-=payload.priceValue;
             return newState
         },
+        [changeAmount]:(state,{payload=0})=>{
+            return {...state,amount:payload};
+        }
 
     },basketState)
 }

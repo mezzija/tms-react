@@ -11,4 +11,4 @@ const HeadersStyle=({palette})=>({
         color: '#ffffff',
     },
 });
-export default createUseStyles(HeadersStyle);
+export default createUseStyles(HeadersStyle,{name:'headers',index:200});

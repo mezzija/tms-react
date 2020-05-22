@@ -1,7 +1,14 @@
 import {handleActions} from 'redux-actions';
 import CloneDeep from 'lodash.clonedeep';
 //action
-import {addProducts, sortDesc, sortAsc,searchProducts,currencyProducts} from "../actions";
+import {
+    addProducts,
+    sortDesc,
+    sortAsc,
+    searchProducts,
+    currencyProducts,
+    changePrice,
+} from "../actions";
 //state
 import {productsState} from "../constants/defaultState";
 
@@ -33,6 +40,9 @@ export default {
 
             return {...state,current:state.origin.filter(product => reg.test(product.title))};
 
+        },
+        [changePrice]:(state,{payload={}})=>{
+            return payload;
         },
         [currencyProducts]:(state,{payload=0})=>{
             const newState = CloneDeep(state.origin)

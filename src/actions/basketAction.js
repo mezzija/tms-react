@@ -3,9 +3,11 @@ import {createActions} from 'redux-actions';
 
 export const {
     addToBasket,
-    removeFromBasket
+    removeFromBasket,
+    changeAmount,
 } = createActions(
     'ADD_TO_BASKET',
-    'REMOVE_FROM_BASKET'
+    'REMOVE_FROM_BASKET',
+    'CHANGE_AMOUNT',
 );
 
